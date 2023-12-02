@@ -1,0 +1,4 @@
+﻿  HexCutter.cpp
+D:\proj\WINAPI-VC--\HexCutter.cpp(12,2): warning C4091: typedef : пропускается слева от "ImgInfo", когда ни одна переменная не объявлена
+D:\proj\WINAPI-VC--\HexCutter.cpp(64): warning C4715: readPixelColorsFromFile: значение возвращается не при всех путях выполнения
+  Project1.vcxproj -> D:\proj\WINAPI-VC--\x64\Debug\Project1.exe

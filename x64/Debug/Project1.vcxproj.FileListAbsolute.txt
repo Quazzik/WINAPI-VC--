@@ -1,0 +1,2 @@
+D:\proj\Project1\x64\Debug\Project1.exe
+D:\proj\WINAPI-VC--\x64\Debug\Project1.exe
