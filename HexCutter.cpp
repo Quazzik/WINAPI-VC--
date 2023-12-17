@@ -1,7 +1,8 @@
-#include <windows.h>
+п»ї#include <windows.h>
 #include <string>
 #include <fstream>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -63,25 +64,28 @@ void drawShape(const ImgInfo* info, HDC hdcWindow, HWND hwnd) {
 
     RECT windowRect;
     GetClientRect(hwnd, &windowRect);
-    LONG windowWidth = windowRect.right - windowRect.left;
+    int windowWidth = windowRect.right - windowRect.left;
     int windowHeight = windowRect.bottom - windowRect.top;
 
     for (int x = 0; x < pictWidth; ++x) {
         for (int y = 0; y < pictHeight; ++y) {
-            SetPixel(hdcWindow, pictWidth - x + windowHeight/15, y + windowHeight - pictHeight - windowHeight/15, pixelColors->at(pixelColors->size() - (1 + pictWidth * y + x)));
+            SetPixel(hdcWindow, pictWidth - x + windowHeight / 15, y + windowHeight - pictHeight - windowHeight / 15, pixelColors->at(pixelColors->size() - (1 + pictWidth * y + x)));
         }
     }
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
+    case WM_SIZING: { InvalidateRect(hwnd, NULL, TRUE); }
     case WM_PAINT: {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hwnd, &ps);
-
         string filename = "D:\\proj\\WINAPI-VC--\\8.bmp";
         auto info = readPixelColorsFromFile(filename);
 
+        int height = LOWORD(lParam);
+        int width = HIWORD(lParam);
+        PaintRgn(hdc, CreateRectRgn(0, 0, width, height));
         drawShape(info, hdc, hwnd);
 
         EndPaint(hwnd, &ps);
@@ -108,7 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     HWND hwnd = CreateWindowExW(
         0,
         CLASS_NAME,
-        L"Та самая отрисовка которая уже работает",
+        L"BMP Image drawer",
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
         NULL,
